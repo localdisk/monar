@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Facade;
 
 class Monar extends Facade
 {
-
     /**
      * @return string
      */

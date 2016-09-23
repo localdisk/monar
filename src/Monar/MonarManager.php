@@ -6,7 +6,6 @@ use GuzzleHttp\Client;
 
 class MonarManager implements Factory
 {
-
     /**
      * @var string
      */

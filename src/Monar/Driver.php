@@ -2,12 +2,10 @@
 
 namespace Localdisk\Monar;
 
-
 use Localdisk\Monar\Exceptions\MonarException;
 
 interface Driver
 {
-
     /**
      * get threads.
      *
@@ -37,5 +35,4 @@ interface Driver
      * @throws MonarException
      */
     public function post($name = '', $email = 'sage', $text = null);
-
 }

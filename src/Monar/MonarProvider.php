@@ -6,7 +6,6 @@ use Illuminate\Support\ServiceProvider;
 
 class MonarProvider extends ServiceProvider
 {
-
     public function register()
     {
         $this->app->bind(Factory::class, function () {

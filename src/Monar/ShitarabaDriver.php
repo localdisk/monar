@@ -2,19 +2,17 @@
 
 namespace Localdisk\Monar;
 
-
 use Localdisk\Monar\Exceptions\MonarException;
 
 class ShitarabaDriver extends AbstractDriver
 {
-
     /**
-     * @var string $baseUrl
+     * @var string
      */
     protected $baseUrl = 'http://jbbs.shitaraba.net';
 
     /**
-     * @var string $encoding
+     * @var string
      */
     protected $encoding = 'EUC-JP';
 
@@ -70,11 +68,11 @@ class ShitarabaDriver extends AbstractDriver
             'NAME'    => $name,
             'MAIL'    => $email,
         ];
-        $bytes  = 0;
+        $bytes = 0;
         foreach ($params as $param) {
             $bytes += strlen($param);
         }
-        $headers  = [
+        $headers = [
             'Host'           => parse_url($this->url, PHP_URL_HOST),
             'Referer'        => $this->url,
             'Content-Length' => $bytes,
@@ -97,11 +95,11 @@ class ShitarabaDriver extends AbstractDriver
         $paths = $this->renewArray(explode('/', parse_url($this->url, PHP_URL_PATH)));
         if ($paths[1] === 'read.cgi' || $paths[1] === 'read_archive.cgi') {
             $this->category = $paths[2];
-            $this->board    = $paths[3];
-            $this->thread   = $paths[4];
+            $this->board = $paths[3];
+            $this->thread = $paths[4];
         } else {
             $this->category = $paths[0];
-            $this->board    = $paths[1];
+            $this->board = $paths[1];
         }
     }
 
@@ -160,15 +158,13 @@ class ShitarabaDriver extends AbstractDriver
     {
         $url = "{$this->baseUrl}/bbs/rawmode.cgi/{$this->category}/{$this->board}/{$this->thread}/";
         if (! is_null($start) && ! is_null($end)) {
-
-            return $url . "{$start}-{$end}";
+            return $url."{$start}-{$end}";
         }
         if (! is_null($start) && is_null($end)) {
-
-            return $url . "{$start}-";
+            return $url."{$start}-";
         }
         if (is_null($start) && ! is_null($end)) {
-            return $url . "-{$end}";
+            return $url."-{$end}";
         }
 
         return $url;

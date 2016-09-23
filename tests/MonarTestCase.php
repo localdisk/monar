@@ -10,7 +10,6 @@ use Orchestra\Testbench\TestCase;
 
 class MonarTestCase extends TestCase
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -32,7 +31,7 @@ class MonarTestCase extends TestCase
     {
         $mock = new MockHandler([$response]);
         $handler = HandlerStack::create($mock);
+
         return new Client(['handler' => $handler]);
     }
 }
-
