@@ -2,50 +2,48 @@
 
 namespace Localdisk\Monar;
 
-
 use GuzzleHttp\Client;
 use Localdisk\Monar\Exceptions\MonarException;
 
 abstract class AbstractDriver implements Driver
 {
-
     /**
-     * @var string $url
+     * @var string
      */
     protected $url;
 
     /**
-     * @var Client $client
+     * @var Client
      */
     protected $client;
 
     /**
-     * @var string $category
+     * @var string
      */
     protected $category;
 
     /**
-     * @var string $board
+     * @var string
      */
     protected $board;
 
     /**
-     * @var string $thread
+     * @var string
      */
     protected $thread;
 
     /**
-     * @var string $baseUrl
+     * @var string
      */
     protected $baseUrl;
 
     /**
-     * @var string $encoding
+     * @var string
      */
     protected $encoding;
 
     /**
-     * @var string $cookie
+     * @var string
      */
     protected $cookie;
 
@@ -57,7 +55,7 @@ abstract class AbstractDriver implements Driver
      */
     public function __construct($url, Client $client)
     {
-        $this->url    = $url;
+        $this->url = $url;
         $this->client = $client;
         $this->parse();
     }
