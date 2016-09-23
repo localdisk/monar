@@ -1,0 +1,32 @@
+{
+  "name": "localdisk/monar",
+  "description": "read and write thread floating type bbs.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "localdisk",
+      "email": "smoochynet@gmail.com"
+    }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": "^6.2",
+    "illuminate/support": "5.1.*|5.2.*|5.3.*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.5",
+    "orchestra/testbench": "^3.3",
+    "mockery/mockery": "^0.9.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Localdisk\\Monar\\": "src/Monar"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Localdisk\\Monar\\Tests\\": "tests"
+    }
+  },
+  "minimum-stability": "stable"
+}
