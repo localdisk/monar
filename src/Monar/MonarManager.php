@@ -3,6 +3,7 @@
 namespace Localdisk\Monar;
 
 use GuzzleHttp\Client;
+use Illuminate\Contracts\Foundation\Application;
 
 class MonarManager implements Factory
 {
@@ -28,7 +29,7 @@ class MonarManager implements Factory
      *
      * @param \Illuminate\Contracts\Foundation\Application $app
      */
-    public function __construct($app)
+    public function __construct(Application $app)
     {
         $this->app = $app;
     }
