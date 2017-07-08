@@ -2,6 +2,7 @@
 
 namespace Localdisk\Monar;
 
+use Illuminate\Support\Collection;
 use Localdisk\Monar\Exceptions\MonarException;
 
 class ShitarabaDriver extends AbstractDriver
@@ -139,6 +140,12 @@ class ShitarabaDriver extends AbstractDriver
             preg_match('/^(.*)\(([0-9]+)\)\z/', $tmp, $matches);
 
             return [
+                'url'   => vsprintf('http://%s/bbs/read.cgi/%s/%s/%d', [
+                    parse_url($this->url, PHP_URL_HOST),
+                    $this->category,
+                    $this->board,
+                    $id,
+                ]),
                 'id'    => $id,
                 'title' => trim($matches[1]),
                 'count' => $matches[2],

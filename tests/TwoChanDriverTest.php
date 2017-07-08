@@ -9,7 +9,7 @@ use Localdisk\Monar\TwoChanDriver;
 
 class TwoChanDriverTest extends MonarTestCase
 {
-    private $url = 'http://ex14.vip2ch.com/test/read.cgi/news4ssnip/1471964860/';
+    private $url = 'http://ex14.vip2ch.com/test/read.cgi/news4ssnip/1471964860';
 
     /**
      * @test
@@ -35,6 +35,7 @@ class TwoChanDriverTest extends MonarTestCase
         $this->assertCount(10, $threads);
         $thread = $threads->last();
         $this->assertEquals([
+            'url'   => 'http://ex14.vip2ch.com/test/read.cgi/news4ssnip/1473564844',
             'id'    => '1473564844',
             'title' => '神谷奈緒「チャット」',
             'count' => '439',
