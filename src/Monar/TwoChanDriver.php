@@ -54,26 +54,26 @@ class TwoChanDriver extends AbstractDriver
     {
         mb_convert_variables('Shift_JIS', 'UTF-8', $name, $email, $text);
         $params = [
-            'bbs'     => $this->board,
-            'key'     => $this->thread,
-            'time'    => time(),
-            'FROM'    => $name,
-            'mail'    => $email,
+            'bbs' => $this->board,
+            'key' => $this->thread,
+            'time' => time(),
+            'FROM' => $name,
+            'mail' => $email,
             'MESSAGE' => $text,
-            'submit'  => $this->encode('書き込む', 'Shift_JIS', 'UTF-8'),
+            'submit' => $this->encode('書き込む', 'Shift_JIS', 'UTF-8'),
         ];
         $headers = [
-            'Host'    => parse_url($this->url, PHP_URL_HOST),
+            'Host' => parse_url($this->url, PHP_URL_HOST),
             'Referer' => $this->url,
         ];
         $response = $this->request('POST', $this->postUrl(), [
-            'headers'     => $headers,
+            'headers' => $headers,
             'form_params' => $params,
         ]);
 
         if ($this->confirm($response)) {
             $response = $this->request('POST', $this->postUrl(), [
-                'headers'     => $headers,
+                'headers' => $headers,
                 'form_params' => $params,
             ]);
         }
@@ -91,7 +91,7 @@ class TwoChanDriver extends AbstractDriver
         $parsed = parse_url($this->url);
         $paths = $this->renewArray(explode('/', parse_url($this->url, PHP_URL_PATH)));
 
-        $this->baseUrl = $parsed['scheme'].'://'.$parsed['host'];
+        $this->baseUrl = $parsed['scheme'] . '://' . $parsed['host'];
         $this->category = '';
         $this->board = $paths[2];
         $this->thread = $paths[3];
@@ -137,12 +137,8 @@ class TwoChanDriver extends AbstractDriver
             preg_match('/^(.*)\(([0-9]+)\)\z/', $tmp, $matches);
 
             return [
-                'url'   => vsprintf('http://%s/test/read.cgi/%s/%d', [
-                    parse_url($this->url, PHP_URL_HOST),
-                    $this->board,
-                    $id,
-                ]),
-                'id'    => $id,
+                'url' => $this->url,
+                'id' => $id,
                 'title' => trim($matches[1]),
                 'count' => $matches[2],
             ];
