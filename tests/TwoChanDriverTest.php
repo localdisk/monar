@@ -9,7 +9,7 @@ use Localdisk\Monar\TwoChanDriver;
 
 class TwoChanDriverTest extends MonarTestCase
 {
-    private $url = 'http://ex14.vip2ch.com/test/read.cgi/news4ssnip/1471964860';
+    private $url = 'http://ex14.vip2ch.com/test/read.cgi/news4ssnip/1473564844';
 
     /**
      * @test
