@@ -137,7 +137,11 @@ class TwoChanDriver extends AbstractDriver
             preg_match('/^(.*)\(([0-9]+)\)\z/', $tmp, $matches);
 
             return [
-                'url' => $this->url,
+                'url' => vsprintf('http://%s/test/read.cgi/%s/%d', [
+                    parse_url($this->url, PHP_URL_HOST),
+                    $this->board,
+                    $id,
+                ]),
                 'id' => $id,
                 'title' => trim($matches[1]),
                 'count' => $matches[2],
