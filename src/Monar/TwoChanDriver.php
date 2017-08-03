@@ -53,27 +53,27 @@ class TwoChanDriver extends AbstractDriver
     public function post($name = '', $email = 'sage', $text = null)
     {
         mb_convert_variables('Shift_JIS', 'UTF-8', $name, $email, $text);
-        $params = [
-            'bbs' => $this->board,
-            'key' => $this->thread,
-            'time' => time(),
-            'FROM' => $name,
-            'mail' => $email,
+        $params   = [
+            'bbs'     => $this->board,
+            'key'     => $this->thread,
+            'time'    => time(),
+            'FROM'    => $name,
+            'mail'    => $email,
             'MESSAGE' => $text,
-            'submit' => $this->encode('書き込む', 'Shift_JIS', 'UTF-8'),
+            'submit'  => $this->encode('書き込む', 'Shift_JIS', 'UTF-8'),
         ];
-        $headers = [
-            'Host' => parse_url($this->url, PHP_URL_HOST),
+        $headers  = [
+            'Host'    => parse_url($this->url, PHP_URL_HOST),
             'Referer' => $this->url,
         ];
         $response = $this->request('POST', $this->postUrl(), [
-            'headers' => $headers,
+            'headers'     => $headers,
             'form_params' => $params,
         ]);
 
         if ($this->confirm($response)) {
             $response = $this->request('POST', $this->postUrl(), [
-                'headers' => $headers,
+                'headers'     => $headers,
                 'form_params' => $params,
             ]);
         }
@@ -89,12 +89,12 @@ class TwoChanDriver extends AbstractDriver
     protected function parse()
     {
         $parsed = parse_url($this->url);
-        $paths = $this->renewArray(explode('/', parse_url($this->url, PHP_URL_PATH)));
+        $paths  = $this->renewArray(explode('/', parse_url($this->url, PHP_URL_PATH)));
 
-        $this->baseUrl = $parsed['scheme'] . '://' . $parsed['host'];
+        $this->baseUrl  = $parsed['scheme'] . '://' . $parsed['host'];
         $this->category = '';
-        $this->board = $paths[2];
-        $this->thread = $paths[3];
+        $this->board    = $paths[2];
+        $this->thread   = $paths[3];
     }
 
     /**
@@ -106,16 +106,16 @@ class TwoChanDriver extends AbstractDriver
      */
     protected function parseDatCollection($body)
     {
-        $lines = array_filter(explode("\n", $body), 'strlen');
+        $lines  = array_filter(explode("\n", $body), 'strlen');
         $number = 0;
 
         return collect(array_map(function ($line) use (&$number) {
             $number++;
             list($name, $email, $date, $body) = explode('<>', $line);
-            $name = trim(strip_tags($name));
-            $body = strip_tags($body, '<br>');
+            $name  = trim(strip_tags($name));
+            $body  = strip_tags($body, '<br>');
             $resid = mb_substr($date, strpos($date, ' ID:') + 2);
-            $date = mb_substr($date, 0, strpos($date, ' ID:') - 2);
+            $date  = mb_substr($date, 0, strpos($date, ' ID:') - 2);
 
             return compact('number', 'name', 'email', 'date', 'body', 'resid');
         }, $lines));
@@ -137,8 +137,12 @@ class TwoChanDriver extends AbstractDriver
             preg_match('/^(.*)\(([0-9]+)\)\z/', $tmp, $matches);
 
             return [
-                'url' => $this->url,
-                'id' => $id,
+                'url'   => vsprintf('http://%s/test/read.cgi/%s/%d', [
+                    parse_url($this->url, PHP_URL_HOST),
+                    $this->board,
+                    $id,
+                ]),
+                'id'    => $id,
                 'title' => trim($matches[1]),
                 'count' => $matches[2],
             ];
