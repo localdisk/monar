@@ -53,7 +53,7 @@ class TwoChanDriver extends AbstractDriver
     public function post($name = '', $email = 'sage', $text = null)
     {
         mb_convert_variables('Shift_JIS', 'UTF-8', $name, $email, $text);
-        $params   = [
+        $params = [
             'bbs'     => $this->board,
             'key'     => $this->thread,
             'time'    => time(),
@@ -62,7 +62,7 @@ class TwoChanDriver extends AbstractDriver
             'MESSAGE' => $text,
             'submit'  => $this->encode('書き込む', 'Shift_JIS', 'UTF-8'),
         ];
-        $headers  = [
+        $headers = [
             'Host'    => parse_url($this->url, PHP_URL_HOST),
             'Referer' => $this->url,
         ];
@@ -89,12 +89,12 @@ class TwoChanDriver extends AbstractDriver
     protected function parse()
     {
         $parsed = parse_url($this->url);
-        $paths  = $this->renewArray(explode('/', parse_url($this->url, PHP_URL_PATH)));
+        $paths = $this->renewArray(explode('/', parse_url($this->url, PHP_URL_PATH)));
 
-        $this->baseUrl  = $parsed['scheme'] . '://' . $parsed['host'];
+        $this->baseUrl = $parsed['scheme'].'://'.$parsed['host'];
         $this->category = '';
-        $this->board    = $paths[2];
-        $this->thread   = $paths[3];
+        $this->board = $paths[2];
+        $this->thread = $paths[3];
     }
 
     /**
@@ -106,16 +106,16 @@ class TwoChanDriver extends AbstractDriver
      */
     protected function parseDatCollection($body)
     {
-        $lines  = array_filter(explode("\n", $body), 'strlen');
+        $lines = array_filter(explode("\n", $body), 'strlen');
         $number = 0;
 
         return collect(array_map(function ($line) use (&$number) {
             $number++;
             list($name, $email, $date, $body) = explode('<>', $line);
-            $name  = trim(strip_tags($name));
-            $body  = strip_tags($body, '<br>');
+            $name = trim(strip_tags($name));
+            $body = strip_tags($body, '<br>');
             $resid = mb_substr($date, strpos($date, ' ID:') + 2);
-            $date  = mb_substr($date, 0, strpos($date, ' ID:') - 2);
+            $date = mb_substr($date, 0, strpos($date, ' ID:') - 2);
 
             return compact('number', 'name', 'email', 'date', 'body', 'resid');
         }, $lines));
