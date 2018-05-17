@@ -62,4 +62,4 @@ enabled:
   - unary_operators_spaces
   - unused_use
   - visibility
-- whitespacy_lines
+  - whitespacy_lines
