@@ -91,7 +91,7 @@ class TwoChanDriver extends AbstractDriver
         $parsed = parse_url($this->url);
         $paths = $this->renewArray(explode('/', parse_url($this->url, PHP_URL_PATH)));
 
-        $this->baseUrl = $parsed['scheme'] . '://' . $parsed['host'];
+        $this->baseUrl = $parsed['scheme'].'://'.$parsed['host'];
         $this->category = '';
 
         if (count($paths) === 1) {
