@@ -3,6 +3,9 @@
 namespace Localdisk\Monar;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\CookieJar;
+use GuzzleHttp\Cookie\SetCookie;
+use Illuminate\Support\Collection;
 use Localdisk\Monar\Exceptions\MonarException;
 
 abstract class AbstractDriver implements Driver
@@ -67,7 +70,7 @@ abstract class AbstractDriver implements Driver
      *
      * @return array
      */
-    protected function renewArray(array $array)
+    protected function renewArray(array $array): array
     {
         return array_values(array_filter($array));
     }
@@ -81,16 +84,19 @@ abstract class AbstractDriver implements Driver
      *
      * @return mixed|string
      * @throws MonarException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function request($method, $url, array $options = [])
     {
         $response = $this->client->request($method, $url, $options);
 
         $error = $response->getHeader('ERROR');
+
         if (! empty($error)) {
-            $errorStr = is_array($error) ? implode(',', $error) : $error;
+            $errorStr = \is_array($error) ? implode(',', $error) : $error;
             throw new MonarException("url: {$url}. method: {$method}. error:{$errorStr}");
         }
+
         if ($cookie = $response->getHeader('Set-Cookie')) {
             $this->cookie = $cookie[0];
         }
@@ -117,7 +123,7 @@ abstract class AbstractDriver implements Driver
      *
      * @return void
      */
-    abstract protected function parse();
+    abstract protected function parse(): void;
 
     /**
      * parse dat collection.
@@ -126,7 +132,7 @@ abstract class AbstractDriver implements Driver
      *
      * @return \Illuminate\Support\Collection
      */
-    abstract protected function parseDatCollection($body);
+    abstract protected function parseDatCollection($body): Collection;
 
     /**
      * parse threads collection.
@@ -135,7 +141,7 @@ abstract class AbstractDriver implements Driver
      *
      * @return \Illuminate\Support\Collection
      */
-    abstract protected function parseThreadsCollection($body);
+    abstract protected function parseThreadsCollection($body): Collection;
 
     /**
      * build message url.
@@ -145,19 +151,19 @@ abstract class AbstractDriver implements Driver
      *
      * @return string
      */
-    abstract protected function messagesUrl($start = 1, $end = null);
+    abstract protected function messagesUrl($start = 1, $end = null): string;
 
     /**
      * build thread url.
      *
      * @return string
      */
-    abstract protected function threadsUrl();
+    abstract protected function threadsUrl(): string;
 
     /**
      * build post url.
      *
      * @return string
      */
-    abstract protected function postUrl();
+    abstract protected function postUrl(): string ;
 }

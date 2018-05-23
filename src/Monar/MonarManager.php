@@ -10,7 +10,7 @@ class MonarManager implements Factory
     /**
      * @var string
      */
-    const SHITARABA = 'http://jbbs.shitaraba.net';
+    public const SHITARABA = 'http://jbbs.shitaraba.net';
 
     /**
      * @var string
@@ -39,13 +39,17 @@ class MonarManager implements Factory
      *
      * @return Driver
      */
-    public function bbs($url = null)
+    public function bbs($url = null): Driver
     {
-        if (is_null($url)) {
+        if (null === $url) {
             throw new \InvalidArgumentException('Drivier is null');
         }
 
-        $client = new Client(['cookies' => true]);
+        $client = new Client([
+            'cookies' => true,
+            'http_errors' => false,
+        ]);
+
         if ($this->startsWith($url, self::SHITARABA)) {
             return new ShitarabaDriver($url, $client);
         }
@@ -59,12 +63,8 @@ class MonarManager implements Factory
      *
      * @return bool
      */
-    protected function startsWith($haystack, $needle)
+    protected function startsWith($haystack, $needle): bool
     {
-        if ($needle != '' && mb_strpos($haystack, $needle) === 0) {
-            return true;
-        }
-
-        return false;
+        return $needle !== '' && mb_strpos($haystack, $needle) === 0;
     }
 }

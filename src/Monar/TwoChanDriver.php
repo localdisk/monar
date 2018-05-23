@@ -2,6 +2,9 @@
 
 namespace Localdisk\Monar;
 
+use GuzzleHttp\Cookie\CookieJar;
+use GuzzleHttp\Cookie\SetCookie;
+use Illuminate\Support\Collection;
 use Localdisk\Monar\Exceptions\MonarException;
 
 class TwoChanDriver extends AbstractDriver
@@ -16,8 +19,9 @@ class TwoChanDriver extends AbstractDriver
      *
      * @return \Illuminate\Support\Collection
      * @throws MonarException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function threads()
+    public function threads(): Collection
     {
         $body = $this->request('GET', $this->threadsUrl());
 
@@ -32,8 +36,9 @@ class TwoChanDriver extends AbstractDriver
      *
      * @return \Illuminate\Support\Collection
      * @throws MonarException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function messages($start = 1, $end = null)
+    public function messages($start = 1, $end = null): Collection
     {
         $body = $this->request('GET', $this->messagesUrl($start, $end));
 
@@ -49,6 +54,7 @@ class TwoChanDriver extends AbstractDriver
      *
      * @return mixed|string
      * @throws MonarException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function post($name = '', $email = 'sage', $text = null)
     {
@@ -65,16 +71,21 @@ class TwoChanDriver extends AbstractDriver
         $headers = [
             'Host' => parse_url($this->url, PHP_URL_HOST),
             'Referer' => $this->url,
+            'User-Agent' => 'Monazilla/1.00',
         ];
+        $cookie = new CookieJar();
         $response = $this->request('POST', $this->postUrl(), [
             'headers' => $headers,
             'form_params' => $params,
+            'cookies' => $cookie,
         ]);
 
         if ($this->confirm($response)) {
+            $cookie->setCookie(SetCookie::fromString('IS_COOKIE=1'));
             $response = $this->request('POST', $this->postUrl(), [
                 'headers' => $headers,
                 'form_params' => $params,
+                'cookies' => $cookie,
             ]);
         }
 
@@ -86,7 +97,7 @@ class TwoChanDriver extends AbstractDriver
      *
      * @return void
      */
-    protected function parse()
+    protected function parse(): void
     {
         $parsed = parse_url($this->url);
         $paths = $this->renewArray(explode('/', parse_url($this->url, PHP_URL_PATH)));
@@ -94,7 +105,7 @@ class TwoChanDriver extends AbstractDriver
         $this->baseUrl = $parsed['scheme'].'://'.$parsed['host'];
         $this->category = '';
 
-        if (count($paths) === 1) {
+        if (\count($paths) === 1) {
             $this->board = $paths[0];
             $this->thread = '';
         } else {
@@ -110,14 +121,14 @@ class TwoChanDriver extends AbstractDriver
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function parseDatCollection($body)
+    protected function parseDatCollection($body): Collection
     {
-        $lines = array_filter(explode("\n", $body), 'strlen');
+        $lines = array_filter(explode("\n", $body), '\strlen');
         $number = 0;
 
         return collect(array_map(function ($line) use (&$number) {
             $number++;
-            list($name, $email, $date, $body) = explode('<>', $line);
+            [$name, $email, $date, $body] = explode('<>', $line);
             $name = trim(strip_tags($name));
             $body = strip_tags($body, '<br>');
             $resid = mb_substr($date, strpos($date, ' ID:') + 2);
@@ -134,13 +145,13 @@ class TwoChanDriver extends AbstractDriver
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function parseThreadsCollection($body)
+    protected function parseThreadsCollection($body): Collection
     {
-        $threads = array_filter(explode("\n", $body), 'strlen');
+        $threads = array_filter(explode("\n", $body), '\strlen');
 
         return collect(array_map(function ($elem) {
-            list($id, $tmp) = explode('.dat<>', $elem);
-            preg_match('/^(.*)\(([0-9]+)\)\z/', $tmp, $matches);
+            [$id, $tmp] = explode('.dat<>', $elem);
+            preg_match('/^(.*)\((\d+)\)\z/', $tmp, $matches);
 
             return [
                 'url' => vsprintf('http://%s/test/read.cgi/%s/%d', [
@@ -163,7 +174,7 @@ class TwoChanDriver extends AbstractDriver
      *
      * @return string
      */
-    protected function messagesUrl($start = 1, $end = null)
+    protected function messagesUrl($start = 1, $end = null): string
     {
         return "{$this->baseUrl}/{$this->board}/dat/{$this->thread}.dat";
     }
@@ -173,7 +184,7 @@ class TwoChanDriver extends AbstractDriver
      *
      * @return string
      */
-    protected function threadsUrl()
+    protected function threadsUrl(): string
     {
         return "{$this->baseUrl}/{$this->board}/subject.txt";
     }
@@ -183,7 +194,7 @@ class TwoChanDriver extends AbstractDriver
      *
      * @return string
      */
-    protected function postUrl()
+    protected function postUrl(): string
     {
         return "{$this->baseUrl}/test/bbs.cgi";
     }
@@ -195,7 +206,7 @@ class TwoChanDriver extends AbstractDriver
      *
      * @return bool
      */
-    private function confirm($html)
+    private function confirm($html): bool
     {
         return strpos($html, '書き込み確認') !== false;
     }

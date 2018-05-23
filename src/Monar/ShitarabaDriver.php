@@ -38,8 +38,9 @@ class ShitarabaDriver extends AbstractDriver
      *
      * @return \Illuminate\Support\Collection
      * @throws MonarException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function messages($start = 1, $end = null)
+    public function messages($start = null, $end = null): Collection
     {
         $body = $this->request('GET', $this->messagesUrl($start, $end));
 
@@ -55,6 +56,7 @@ class ShitarabaDriver extends AbstractDriver
      *
      * @return mixed|string
      * @throws MonarException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function post($name = '', $email = 'sage', $text = null)
     {
@@ -71,7 +73,7 @@ class ShitarabaDriver extends AbstractDriver
         ];
         $bytes = 0;
         foreach ($params as $param) {
-            $bytes += strlen($param);
+            $bytes += \strlen($param);
         }
         $headers = [
             'Host'           => parse_url($this->url, PHP_URL_HOST),
@@ -91,7 +93,7 @@ class ShitarabaDriver extends AbstractDriver
      *
      * @return void
      */
-    protected function parse()
+    protected function parse(): void
     {
         $paths = $this->renewArray(explode('/', parse_url($this->url, PHP_URL_PATH)));
         if ($paths[1] === 'read.cgi' || $paths[1] === 'read_archive.cgi') {
@@ -111,12 +113,12 @@ class ShitarabaDriver extends AbstractDriver
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function parseDatCollection($body)
+    protected function parseDatCollection($body): Collection
     {
-        $lines = array_filter(explode("\n", $body), 'strlen');
+        $lines = array_filter(explode("\n", $body), '\strlen');
 
         return collect(array_map(function ($line) {
-            list($number, $name, $email, $date, $body, , $resid) = explode('<>', $line);
+            [$number, $name, $email, $date, $body, , $resid] = explode('<>', $line);
             $name = trim(strip_tags($name));
             $body = strip_tags($body, '<br>');
 
@@ -131,13 +133,13 @@ class ShitarabaDriver extends AbstractDriver
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function parseThreadsCollection($body)
+    protected function parseThreadsCollection($body): Collection
     {
-        $threads = array_filter(explode("\n", $body), 'strlen');
+        $threads = array_filter(explode("\n", $body), '\strlen');
 
         return collect(array_map(function ($elem) {
-            list($id, $tmp) = explode('.cgi,', $elem);
-            preg_match('/^(.*)\(([0-9]+)\)\z/', $tmp, $matches);
+            [$id, $tmp] = explode('.cgi,', $elem);
+            preg_match('/^(.*)\((\d+)\)\z/', $tmp, $matches);
 
             return [
                 'url'   => vsprintf('http://%s/bbs/read.cgi/%s/%s/%d', [
@@ -161,16 +163,16 @@ class ShitarabaDriver extends AbstractDriver
      *
      * @return string
      */
-    protected function messagesUrl($start = 1, $end = null)
+    protected function messagesUrl($start = 1, $end = null): string
     {
         $url = "{$this->baseUrl}/bbs/rawmode.cgi/{$this->category}/{$this->board}/{$this->thread}/";
-        if (! is_null($start) && ! is_null($end)) {
+        if (null !== $start && null !== $end) {
             return $url."{$start}-{$end}";
         }
-        if (! is_null($start) && is_null($end)) {
+        if (null !== $start && null === $end) {
             return $url."{$start}-";
         }
-        if (is_null($start) && ! is_null($end)) {
+        if (null === $start && null !== $end) {
             return $url."-{$end}";
         }
 
@@ -182,7 +184,7 @@ class ShitarabaDriver extends AbstractDriver
      *
      * @return string
      */
-    protected function threadsUrl()
+    protected function threadsUrl(): string
     {
         return "{$this->baseUrl}/{$this->category}/{$this->board}/subject.txt";
     }
@@ -192,7 +194,7 @@ class ShitarabaDriver extends AbstractDriver
      *
      * @return string
      */
-    protected function postUrl()
+    protected function postUrl(): string
     {
         return "{$this->baseUrl}/bbs/write.cgi";
     }
