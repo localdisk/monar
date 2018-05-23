@@ -3,8 +3,6 @@
 namespace Localdisk\Monar;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Cookie\CookieJar;
-use GuzzleHttp\Cookie\SetCookie;
 use Illuminate\Support\Collection;
 use Localdisk\Monar\Exceptions\MonarException;
 
@@ -165,5 +163,5 @@ abstract class AbstractDriver implements Driver
      *
      * @return string
      */
-    abstract protected function postUrl(): string ;
+    abstract protected function postUrl(): string;
 }
