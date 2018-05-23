@@ -79,11 +79,17 @@ class ShitarabaDriver extends AbstractDriver
             'Host'           => parse_url($this->url, PHP_URL_HOST),
             'Referer'        => $this->url,
             'Content-Length' => $bytes,
+            'User-Agent' => 'Monazilla/1.00',
         ];
+
         $response = $this->request('POST', $this->postUrl(), [
             'headers'     => $headers,
             'form_params' => $params,
         ]);
+
+        if ($this->isError($response)) {
+            throw new MonarException($response);
+        }
 
         return $response;
     }
@@ -197,5 +203,27 @@ class ShitarabaDriver extends AbstractDriver
     protected function postUrl(): string
     {
         return "{$this->baseUrl}/bbs/write.cgi";
+    }
+
+    /**
+     * 書き込み確認かどうか.
+     *
+     * @param  string $html
+     *
+     * @return bool
+     */
+    private function confirm($html): bool
+    {
+        return strpos($html, '書き込み確認') !== false;
+    }
+
+    /**
+     * @param $html
+     *
+     * @return bool
+     */
+    private function isError($html): bool
+    {
+        return strpos($html, '<!-- 2ch_X:error -->') !== false;
     }
 }
