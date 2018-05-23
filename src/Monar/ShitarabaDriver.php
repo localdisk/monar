@@ -54,7 +54,7 @@ class ShitarabaDriver extends AbstractDriver
      * @param string $email
      * @param null $text
      *
-     * @return mixed|string
+     * @return string
      * @throws MonarException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -135,7 +135,7 @@ class ShitarabaDriver extends AbstractDriver
     /**
      * parse threads collection.
      *
-     * @param $body
+     * @param string $body
      *
      * @return \Illuminate\Support\Collection
      */
@@ -166,6 +166,7 @@ class ShitarabaDriver extends AbstractDriver
      *
      * @param int $start
      * @param int| null $end
+     * @param integer $end
      *
      * @return string
      */
@@ -218,7 +219,7 @@ class ShitarabaDriver extends AbstractDriver
     }
 
     /**
-     * @param $html
+     * @param string $html
      *
      * @return bool
      */
