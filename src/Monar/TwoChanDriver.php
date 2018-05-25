@@ -185,7 +185,7 @@ class TwoChanDriver extends AbstractDriver
      *
      * @return string
      */
-    protected function messagesUrl(int $start = 1, ?int $end = null): string
+    protected function messagesUrl(?int $start = null, ?int $end = null): string
     {
         return "{$this->baseUrl}/{$this->board}/dat/{$this->thread}.dat";
     }

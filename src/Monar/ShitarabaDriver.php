@@ -166,11 +166,10 @@ class ShitarabaDriver extends AbstractDriver
      *
      * @param int $start
      * @param int|null $end
-     * @param int $end
      *
      * @return string
      */
-    protected function messagesUrl(int $start = 1, ?int $end = null): string
+    protected function messagesUrl(?int $start = null, ?int $end = null): string
     {
         $url = "{$this->baseUrl}/bbs/rawmode.cgi/{$this->category}/{$this->board}/{$this->thread}/";
         if (null !== $start && null !== $end) {
