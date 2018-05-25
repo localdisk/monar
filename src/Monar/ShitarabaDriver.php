@@ -77,7 +77,7 @@ class ShitarabaDriver extends AbstractDriver
         }
         $headers = [
             'Host'           => parse_url($this->url, PHP_URL_HOST),
-            'Referer'        => $this->url,
+            'Referer'        => $this->url.'/',
             'Content-Length' => $bytes,
             'User-Agent' => 'Monazilla/1.00',
         ];
