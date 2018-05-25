@@ -9,7 +9,7 @@ use Localdisk\Monar\ShitarabaDriver;
 
 class ShitarabaDriverTest extends MonarTestCase
 {
-    private $url = 'http://jbbs.shitaraba.net/bbs/read.cgi/otaku/15956/1470465448';
+    private $url = 'https://jbbs.shitaraba.net/bbs/read.cgi/otaku/15956/1470465448';
 
     /** @test */
     public function it_can_create_shirabadriver_instance()
@@ -60,7 +60,7 @@ class ShitarabaDriverTest extends MonarTestCase
         $this->assertCount(10, $threads);
         $thread = $threads->last();
         $this->assertEquals([
-            'url'   => 'http://jbbs.shitaraba.net/bbs/read.cgi/otaku/15956/1460466373',
+            'url'   => 'https://jbbs.shitaraba.net/bbs/read.cgi/otaku/15956/1460466373',
             'id'    => '1460466373',
             'title' => 'やる夫が山形城に生まれたようです　３',
             'count' => '517',
@@ -70,7 +70,7 @@ class ShitarabaDriverTest extends MonarTestCase
     /**
      * @test
      * @expectedException \Localdisk\Monar\Exceptions\MonarException
-     * @expectedExceptionMessage url: http://jbbs.shitaraba.net/bbs/rawmode.cgi/otaku/15956/1470465448/1-20. method: GET. error:ERR
+     * @expectedExceptionMessage url: https://jbbs.shitaraba.net/bbs/rawmode.cgi/otaku/15956/1470465448/1-20. method: GET. error:ERR
      */
     public function it_can_get_messages_handle_bbs_notfouond()
     {
