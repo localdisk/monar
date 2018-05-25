@@ -31,18 +31,18 @@ class TwoChanDriver extends AbstractDriver
     /**
      * get messages.
      *
-     * @param int $start
-     * @param int $end
+     * @param int|null $start
+     * @param int|null $end
      *
      * @return \Illuminate\Support\Collection
      * @throws MonarException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function messages($start = 1, $end = null): Collection
+    public function messages(?int $start = null, ?int $end = null): Collection
     {
         $body = $this->request('GET', $this->messagesUrl($start, $end));
 
-        return $this->parseDatCollection($body);
+        return $this->parseDatCollection($body, $end);
     }
 
     /**
@@ -50,13 +50,13 @@ class TwoChanDriver extends AbstractDriver
      *
      * @param string $name
      * @param string $email
-     * @param null $text
+     * @param string|null $text
      *
      * @return mixed|string
      * @throws MonarException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function post($name = '', $email = 'sage', $text = null)
+    public function post(string $name = '', string $email = 'sage', ?string $text = null)
     {
         mb_convert_variables('Shift_JIS', 'UTF-8', $name, $email, $text);
         $params = [
@@ -121,35 +121,46 @@ class TwoChanDriver extends AbstractDriver
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function parseDatCollection($body): Collection
+    protected function parseDatCollection(string $body, ?int $end = null): Collection
     {
         $lines = array_filter(explode("\n", $body), '\strlen');
         $number = 0;
 
-        return collect(array_map(function ($line) use (&$number) {
-            $number++;
+        $lineCount = count($lines);
+
+        if (null === $end || $end > $lineCount) {
+            $end = $lineCount;
+        }
+
+        $collection = collect();
+
+        for ($number = 1; $number <= $end; $number++) {
+            $line = $lines[$number - 1];
+
             [$name, $email, $date, $body] = explode('<>', $line);
             $name = trim(strip_tags($name));
             $body = strip_tags($body, '<br>');
             $resid = mb_substr($date, strpos($date, ' ID:') + 2);
             $date = mb_substr($date, 0, strpos($date, ' ID:') - 2);
 
-            return compact('number', 'name', 'email', 'date', 'body', 'resid');
-        }, $lines));
+            $collection->push(compact('number', 'name', 'email', 'date', 'body', 'resid'));
+        }
+
+        return $collection;
     }
 
     /**
      * parse threads collection.
      *
-     * @param $body
+     * @param string $body
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function parseThreadsCollection($body): Collection
+    protected function parseThreadsCollection(string $body): Collection
     {
         $threads = array_filter(explode("\n", $body), '\strlen');
 
-        return collect(array_map(function ($elem) {
+        return collect(array_map(function($elem) {
             [$id, $tmp] = explode('.dat<>', $elem);
             preg_match('/^(.*)\((\d+)\)\z/', $tmp, $matches);
 
@@ -170,11 +181,11 @@ class TwoChanDriver extends AbstractDriver
      * build message url.
      *
      * @param int $start
-     * @param int| null $end
+     * @param int|null $end
      *
      * @return string
      */
-    protected function messagesUrl($start = 1, $end = null): string
+    protected function messagesUrl(int $start = 1, ?int $end = null): string
     {
         return "{$this->baseUrl}/{$this->board}/dat/{$this->thread}.dat";
     }
@@ -206,7 +217,7 @@ class TwoChanDriver extends AbstractDriver
      *
      * @return bool
      */
-    private function confirm($html): bool
+    private function confirm(string $html): bool
     {
         return strpos($html, '書き込み確認') !== false;
     }

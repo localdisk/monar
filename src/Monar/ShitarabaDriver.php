@@ -23,7 +23,7 @@ class ShitarabaDriver extends AbstractDriver
      * @return \Illuminate\Support\Collection
      * @throws MonarException
      */
-    public function threads()
+    public function threads(): Collection
     {
         $body = $this->request('GET', $this->threadsUrl());
 
@@ -33,14 +33,14 @@ class ShitarabaDriver extends AbstractDriver
     /**
      * get messages.
      *
-     * @param int $start
-     * @param int $end
+     * @param int|null $start
+     * @param int|null $end
      *
      * @return \Illuminate\Support\Collection
      * @throws MonarException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function messages($start = null, $end = null): Collection
+    public function messages(?int $start = null, ?int $end = null): Collection
     {
         $body = $this->request('GET', $this->messagesUrl($start, $end));
 
@@ -58,7 +58,7 @@ class ShitarabaDriver extends AbstractDriver
      * @throws MonarException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function post($name = '', $email = 'sage', $text = null)
+    public function post(string $name = '', string $email = 'sage', ?string $text = null)
     {
         mb_convert_variables('EUC-JP', 'UTF-8', $name, $email, $text);
         $params = [
@@ -119,7 +119,7 @@ class ShitarabaDriver extends AbstractDriver
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function parseDatCollection($body): Collection
+    protected function parseDatCollection(string $body, ?int $end = null): Collection
     {
         $lines = array_filter(explode("\n", $body), '\strlen');
 
@@ -139,7 +139,7 @@ class ShitarabaDriver extends AbstractDriver
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function parseThreadsCollection($body): Collection
+    protected function parseThreadsCollection(string $body): Collection
     {
         $threads = array_filter(explode("\n", $body), '\strlen');
 
@@ -170,7 +170,7 @@ class ShitarabaDriver extends AbstractDriver
      *
      * @return string
      */
-    protected function messagesUrl($start = 1, $end = null): string
+    protected function messagesUrl(int $start = 1, ?int $end = null): string
     {
         $url = "{$this->baseUrl}/bbs/rawmode.cgi/{$this->category}/{$this->board}/{$this->thread}/";
         if (null !== $start && null !== $end) {
@@ -213,7 +213,7 @@ class ShitarabaDriver extends AbstractDriver
      *
      * @return bool
      */
-    private function confirm($html): bool
+    private function confirm(string $html): bool
     {
         return strpos($html, '書き込み確認') !== false;
     }
@@ -223,7 +223,7 @@ class ShitarabaDriver extends AbstractDriver
      *
      * @return bool
      */
-    private function isError($html): bool
+    private function isError(string $html): bool
     {
         return strpos($html, '<!-- 2ch_X:error -->') !== false;
     }

@@ -2,6 +2,7 @@
 
 namespace Localdisk\Monar;
 
+use Illuminate\Support\Collection;
 use Localdisk\Monar\Exceptions\MonarException;
 
 interface Driver
@@ -12,27 +13,27 @@ interface Driver
      * @return \Illuminate\Support\Collection
      * @throws MonarException
      */
-    public function threads();
+    public function threads(): Collection;
 
     /**
      * get messages.
      *
-     * @param int $start
-     * @param int $end
+     * @param int|null $start
+     * @param int|null $end
      *
      * @return \Illuminate\Support\Collection
      */
-    public function messages($start = 1, $end = null);
+    public function messages(?int $start = null, ?int $end = null): Collection;
 
     /**
      * post message.
      *
      * @param string $name
      * @param string $email
-     * @param null $text
+     * @param string|null $text
      *
      * @return mixed|string
      * @throws MonarException
      */
-    public function post($name = '', $email = 'sage', $text = null);
+    public function post(string $name = '', string $email = 'sage', ?string $text = null);
 }

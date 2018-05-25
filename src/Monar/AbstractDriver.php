@@ -51,10 +51,10 @@ abstract class AbstractDriver implements Driver
     /**
      * AbstractDriver constructor.
      *
-     * @param $url
+     * @param string $url
      * @param Client $client
      */
-    public function __construct($url, Client $client)
+    public function __construct(string $url, Client $client)
     {
         $this->url = $url;
         $this->client = $client;
@@ -76,15 +76,15 @@ abstract class AbstractDriver implements Driver
     /**
      * send request.
      *
-     * @param $method
-     * @param $url
+     * @param string $method
+     * @param string $url
      * @param array $options
      *
      * @return mixed|string
      * @throws MonarException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    protected function request($method, $url, array $options = [])
+    protected function request(string $method, string $url, array $options = [])
     {
         $response = $this->client->request($method, $url, $options);
 
@@ -105,13 +105,13 @@ abstract class AbstractDriver implements Driver
     /**
      * encode body text.
      *
-     * @param $body
-     * @param $from
-     * @param $to
+     * @param string $body
+     * @param string $from
+     * @param string $to
      *
      * @return mixed|string
      */
-    protected function encode($body, $from, $to)
+    protected function encode(string $body, string $from, string $to)
     {
         return mb_convert_encoding($body, $to, $from);
     }
@@ -127,29 +127,30 @@ abstract class AbstractDriver implements Driver
      * parse dat collection.
      *
      * @param string $body
+     * @param int|null $end
      *
      * @return \Illuminate\Support\Collection
      */
-    abstract protected function parseDatCollection($body): Collection;
+    abstract protected function parseDatCollection(string $body, ?int $end = null): Collection;
 
     /**
      * parse threads collection.
      *
-     * @param $body
+     * @param string $body
      *
      * @return \Illuminate\Support\Collection
      */
-    abstract protected function parseThreadsCollection($body): Collection;
+    abstract protected function parseThreadsCollection(string $body): Collection;
 
     /**
      * build message url.
      *
      * @param int $start
-     * @param int| null $end
+     * @param int|null $end
      *
      * @return string
      */
-    abstract protected function messagesUrl($start = 1, $end = null): string;
+    abstract protected function messagesUrl(int $start = 1, ?int $end = null): string;
 
     /**
      * build thread url.
