@@ -160,7 +160,7 @@ class TwoChanDriver extends AbstractDriver
     {
         $threads = array_filter(explode("\n", $body), '\strlen');
 
-        return collect(array_map(function($elem) {
+        return collect(array_map(function ($elem) {
             [$id, $tmp] = explode('.dat<>', $elem);
             preg_match('/^(.*)\((\d+)\)\z/', $tmp, $matches);
 
