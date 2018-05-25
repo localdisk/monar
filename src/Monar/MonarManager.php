@@ -10,7 +10,7 @@ class MonarManager implements Factory
     /**
      * @var string
      */
-    public const SHITARABA = 'http://jbbs.shitaraba.net';
+    public const SHITARABA = 'https://jbbs.shitaraba.net';
 
     /**
      * @var string

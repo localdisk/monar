@@ -10,7 +10,7 @@ class ShitarabaDriver extends AbstractDriver
     /**
      * @var string
      */
-    protected $baseUrl = 'http://jbbs.shitaraba.net';
+    protected $baseUrl = 'https://jbbs.shitaraba.net';
 
     /**
      * @var string
@@ -148,7 +148,7 @@ class ShitarabaDriver extends AbstractDriver
             preg_match('/^(.*)\((\d+)\)\z/', $tmp, $matches);
 
             return [
-                'url'   => vsprintf('http://%s/bbs/read.cgi/%s/%s/%d', [
+                'url'   => vsprintf('https://%s/bbs/read.cgi/%s/%s/%d', [
                     parse_url($this->url, PHP_URL_HOST),
                     $this->category,
                     $this->board,
@@ -165,7 +165,7 @@ class ShitarabaDriver extends AbstractDriver
      * build message url.
      *
      * @param int $start
-     * @param int| null $end
+     * @param int|null $end
      * @param int $end
      *
      * @return string
