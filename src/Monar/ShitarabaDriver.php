@@ -166,7 +166,7 @@ class ShitarabaDriver extends AbstractDriver
      *
      * @param int $start
      * @param int| null $end
-     * @param integer $end
+     * @param int $end
      *
      * @return string
      */
