@@ -56,7 +56,7 @@ class TwoChanDriverTest extends MonarTestCase
         $this->assertCount(4, $messages);
         $message = $messages->last();
         $this->assertEquals([
-            'number' => 4,
+            'number' => 5,
             'name'   => '◆yTbGYPG1Vfkq',
             'email'  => 'sage',
             'date'   => '2016/08/24(水) 15:44:05.21',
