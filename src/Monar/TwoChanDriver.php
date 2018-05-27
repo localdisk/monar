@@ -153,18 +153,6 @@ class TwoChanDriver extends AbstractDriver
             $number++;
         }
 
-//        for ($number = 1; $number <= $end; $number++) {
-//            $line = $lines[$number - 1];
-//
-//            [$name, $email, $date, $body] = explode('<>', $line);
-//            $name = trim(strip_tags($name));
-//            $body = strip_tags($body, '<br>');
-//            $resid = mb_substr($date, strpos($date, ' ID:') + 2);
-//            $date = mb_substr($date, 0, strpos($date, ' ID:') - 2);
-//
-//            $collection->push(compact('number', 'name', 'email', 'date', 'body', 'resid'));
-//        }
-
         return $collection;
     }
 
