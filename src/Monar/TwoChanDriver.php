@@ -52,7 +52,7 @@ class TwoChanDriver extends AbstractDriver
      * @param string $email
      * @param string|null $text
      *
-     * @return mixed|string
+     * @return string
      * @throws MonarException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
