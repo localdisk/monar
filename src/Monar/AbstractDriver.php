@@ -127,11 +127,12 @@ abstract class AbstractDriver implements Driver
      * parse dat collection.
      *
      * @param string $body
+     * @param int|null $start
      * @param int|null $end
      *
      * @return \Illuminate\Support\Collection
      */
-    abstract protected function parseDatCollection(string $body, ?int $end = null): Collection;
+    abstract protected function parseDatCollection(string $body, ?int $start = null, ?int $end = null): Collection;
 
     /**
      * parse threads collection.

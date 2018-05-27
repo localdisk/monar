@@ -42,7 +42,7 @@ class TwoChanDriver extends AbstractDriver
     {
         $body = $this->request('GET', $this->messagesUrl($start, $end));
 
-        return $this->parseDatCollection($body, $end);
+        return $this->parseDatCollection($body, $start, $end);
     }
 
     /**
@@ -121,30 +121,49 @@ class TwoChanDriver extends AbstractDriver
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function parseDatCollection(string $body, ?int $end = null): Collection
+    protected function parseDatCollection(string $body, ?int $start = null, ?int $end = null): Collection
     {
         $lines = array_filter(explode("\n", $body), '\strlen');
         $number = 0;
 
         $lineCount = count($lines);
 
+        if (null === $start) {
+            $start = 1;
+        }
+
         if (null === $end || $end > $lineCount) {
             $end = $lineCount;
         }
 
+        $messages = array_slice($lines, $start - 1, $end);
+
         $collection = collect();
 
-        for ($number = 1; $number <= $end; $number++) {
-            $line = $lines[$number - 1];
-
-            [$name, $email, $date, $body] = explode('<>', $line);
+        $number = $start;
+        foreach ($messages as $message) {
+            [$name, $email, $date, $body] = explode('<>', $message);
             $name = trim(strip_tags($name));
             $body = strip_tags($body, '<br>');
             $resid = mb_substr($date, strpos($date, ' ID:') + 2);
             $date = mb_substr($date, 0, strpos($date, ' ID:') - 2);
 
             $collection->push(compact('number', 'name', 'email', 'date', 'body', 'resid'));
+
+            $number++;
         }
+
+//        for ($number = 1; $number <= $end; $number++) {
+//            $line = $lines[$number - 1];
+//
+//            [$name, $email, $date, $body] = explode('<>', $line);
+//            $name = trim(strip_tags($name));
+//            $body = strip_tags($body, '<br>');
+//            $resid = mb_substr($date, strpos($date, ' ID:') + 2);
+//            $date = mb_substr($date, 0, strpos($date, ' ID:') - 2);
+//
+//            $collection->push(compact('number', 'name', 'email', 'date', 'body', 'resid'));
+//        }
 
         return $collection;
     }

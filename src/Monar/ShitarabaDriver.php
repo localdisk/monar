@@ -116,10 +116,12 @@ class ShitarabaDriver extends AbstractDriver
      * parse dat collection.
      *
      * @param string $body
+     * @param int|null $start
+     * @param int|null $end
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function parseDatCollection(string $body, ?int $end = null): Collection
+    protected function parseDatCollection(string $body, ?int $start = null, ?int $end = null): Collection
     {
         $lines = array_filter(explode("\n", $body), '\strlen');
 
