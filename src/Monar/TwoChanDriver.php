@@ -142,6 +142,8 @@ class TwoChanDriver extends AbstractDriver
 
         $number = $start;
         foreach ($messages as $message) {
+            $number++;
+
             [$name, $email, $date, $body] = explode('<>', $message);
             $name = trim(strip_tags($name));
             $body = strip_tags($body, '<br>');
@@ -149,8 +151,6 @@ class TwoChanDriver extends AbstractDriver
             $date = mb_substr($date, 0, strpos($date, ' ID:') - 2);
 
             $collection->push(compact('number', 'name', 'email', 'date', 'body', 'resid'));
-
-            $number++;
         }
 
         return $collection;
