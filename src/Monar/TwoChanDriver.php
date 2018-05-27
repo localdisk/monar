@@ -131,7 +131,11 @@ class TwoChanDriver extends AbstractDriver
             $start = 1;
         }
 
-        if (null === $end || $end > $lineCount) {
+        if (null !== $end) {
+            $end = $end - $start + 1;
+        }
+
+        if ($end > $lineCount) {
             $end = $lineCount;
         }
 
