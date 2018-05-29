@@ -22,6 +22,7 @@ class ShitarabaDriver extends AbstractDriver
      *
      * @return \Illuminate\Support\Collection
      * @throws MonarException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function threads(): Collection
     {
@@ -52,13 +53,13 @@ class ShitarabaDriver extends AbstractDriver
      *
      * @param string $name
      * @param string $email
-     * @param null $text
+     * @param string|null $text
      *
      * @return string
      * @throws MonarException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function post(string $name = '', string $email = 'sage', ?string $text = null)
+    public function post(string $name = '', string $email = 'sage', ?string $text = null): string
     {
         mb_convert_variables('EUC-JP', 'UTF-8', $name, $email, $text);
         $params = [

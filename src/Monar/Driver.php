@@ -32,8 +32,8 @@ interface Driver
      * @param string $email
      * @param string|null $text
      *
-     * @return mixed|string
+     * @return string
      * @throws MonarException
      */
-    public function post(string $name = '', string $email = 'sage', ?string $text = null);
+    public function post(string $name = '', string $email = 'sage', ?string $text = null): string;
 }

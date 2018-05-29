@@ -56,7 +56,7 @@ class TwoChanDriver extends AbstractDriver
      * @throws MonarException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function post(string $name = '', string $email = 'sage', ?string $text = null)
+    public function post(string $name = '', string $email = 'sage', ?string $text = null): string
     {
         mb_convert_variables('Shift_JIS', 'UTF-8', $name, $email, $text);
         $params = [
@@ -73,12 +73,17 @@ class TwoChanDriver extends AbstractDriver
             'Referer' => $this->url,
             'User-Agent' => 'Monazilla/1.00',
         ];
+
         $cookie = new CookieJar();
         $response = $this->request('POST', $this->postUrl(), [
             'headers' => $headers,
             'form_params' => $params,
             'cookies' => $cookie,
         ]);
+
+        if ($this->isError($response)) {
+            throw new MonarException($response);
+        }
 
         if ($this->confirm($response)) {
             $cookie->setCookie(SetCookie::fromString('IS_COOKIE=1'));
@@ -230,5 +235,15 @@ class TwoChanDriver extends AbstractDriver
     private function confirm(string $html): bool
     {
         return strpos($html, '書き込み確認') !== false;
+    }
+
+    /**
+     * @param string $html
+     *
+     * @return bool
+     */
+    private function isError(string $html): bool
+    {
+        return strpos($html, '<!-- 2ch_X:error -->') !== false;
     }
 }
