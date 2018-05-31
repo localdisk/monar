@@ -56,7 +56,7 @@ class TwoChanDriver extends AbstractDriver
      * @throws MonarException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function post(string $name = '', string $email = 'sage', ?string $text = null): string
+    public function post(string $name = '', string $email = '', ?string $text = null): string
     {
         mb_convert_variables('SJIS-win', 'UTF-8', $name, $email, $text);
         $params = [
