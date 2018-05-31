@@ -12,7 +12,7 @@ class TwoChanDriver extends AbstractDriver
     /**
      * @var string
      */
-    protected $encoding = 'Shift_JIS';
+    protected $encoding = 'SJIS-win';
 
     /**
      * get threads.
@@ -58,7 +58,7 @@ class TwoChanDriver extends AbstractDriver
      */
     public function post(string $name = '', string $email = 'sage', ?string $text = null): string
     {
-        mb_convert_variables('Shift_JIS', 'UTF-8', $name, $email, $text);
+        mb_convert_variables('SJIS-win', 'UTF-8', $name, $email, $text);
         $params = [
             'bbs' => $this->board,
             'key' => $this->thread,
@@ -66,7 +66,7 @@ class TwoChanDriver extends AbstractDriver
             'FROM' => $name,
             'mail' => $email,
             'MESSAGE' => $text,
-            'submit' => $this->encode('書き込む', 'Shift_JIS', 'UTF-8'),
+            'submit' => $this->encode('書き込む', 'SJIS-win', 'UTF-8'),
         ];
         $headers = [
             'Host' => parse_url($this->url, PHP_URL_HOST),
