@@ -37,7 +37,6 @@ interface Driver
      */
     public function post(string $name = '', string $email = '', ?string $text = null): string;
 
-
     /**
      * @return string
      */
@@ -52,5 +51,4 @@ interface Driver
      * @return string
      */
     public function getThread(): string;
-
 }
