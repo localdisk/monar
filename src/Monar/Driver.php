@@ -36,4 +36,21 @@ interface Driver
      * @throws MonarException
      */
     public function post(string $name = '', string $email = '', ?string $text = null): string;
+
+
+    /**
+     * @return string
+     */
+    public function getCategory(): string;
+
+    /**
+     * @return string
+     */
+    public function getBoard(): string;
+
+    /**
+     * @return string
+     */
+    public function getThread(): string;
+
 }

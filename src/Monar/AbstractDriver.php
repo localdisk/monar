@@ -62,6 +62,30 @@ abstract class AbstractDriver implements Driver
     }
 
     /**
+     * @return string
+     */
+    public function getCategory(): string
+    {
+        return $this->category;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBoard(): string
+    {
+        return $this->board;
+    }
+
+    /**
+     * @return string
+     */
+    public function getThread(): string
+    {
+        return $this->thread;
+    }
+
+    /**
      * renew array.
      *
      * @param array $array
