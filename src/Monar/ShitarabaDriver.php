@@ -59,7 +59,7 @@ class ShitarabaDriver extends AbstractDriver
      * @throws MonarException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function post(string $name = '', string $email = '', ?string $text = null): string
+    public function post(?string $name = '', ?string $email = '', ?string $text = null): string
     {
         mb_convert_variables('EUC-JP', 'UTF-8', $name, $email, $text);
         $params = [
