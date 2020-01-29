@@ -3,21 +3,22 @@
 namespace Localdisk\Monar\Tests;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
+use Localdisk\Monar\MonarProvider;
 use Orchestra\Testbench\TestCase;
-use GuzzleHttp\Handler\MockHandler;
 
 class MonarTestCase extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }
 
     protected function getPackageProviders($application)
     {
-        return [\Localdisk\Monar\MonarProvider::class];
+        return [MonarProvider::class];
     }
 
     protected function getPackageAliases($app)

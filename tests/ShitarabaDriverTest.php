@@ -2,9 +2,10 @@
 
 namespace Localdisk\Monar\Tests;
 
-use Localdisk\Monar\Monar;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
+use Localdisk\Monar\Exceptions\MonarException;
+use Localdisk\Monar\Monar;
 use Localdisk\Monar\ShitarabaDriver;
 
 class ShitarabaDriverTest extends MonarTestCase
@@ -69,11 +70,11 @@ class ShitarabaDriverTest extends MonarTestCase
 
     /**
      * @test
-     * @expectedException \Localdisk\Monar\Exceptions\MonarException
-     * @expectedExceptionMessage url: https://jbbs.shitaraba.net/bbs/rawmode.cgi/otaku/15956/1470465448/1-20. method: GET. error:ERR
      */
     public function it_can_get_messages_handle_bbs_notfouond()
     {
+        $this->getExpectedException(MonarException::class);
+        $this->expectExceptionMessage('url: https://jbbs.shitaraba.net/bbs/rawmode.cgi/otaku/15956/1470465448/1-20. method: GET. error:ERR');
         $client = $this->getHttpMock(new Response(200, ['ERROR' => 'ERR'], ''));
         $driver = new ShitarabaDriver($this->url, $client);
         $driver->messages(1, 20);
@@ -86,6 +87,6 @@ class ShitarabaDriverTest extends MonarTestCase
         $driver = new ShitarabaDriver($this->url, $client);
         $response = $driver->post('てすと', 'sage', 'てすとてすと');
 
-        $this->assertContains('書きこみが終りました', $response);
+        $this->assertStringContainsString('書きこみが終りました', $response);
     }
 }
