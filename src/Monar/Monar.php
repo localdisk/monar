@@ -5,8 +5,7 @@ namespace Localdisk\Monar;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * Class Monar
- * @package Localdisk\Monar
+ * Class Monar.
  * @method Driver bbs(string|null $url)
  */
 class Monar extends Facade

@@ -2,9 +2,9 @@
 
 namespace Localdisk\Monar\Tests;
 
-use Localdisk\Monar\Monar;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
+use Localdisk\Monar\Monar;
 use Localdisk\Monar\TwoChanDriver;
 
 class TwoChanDriverTest extends MonarTestCase
