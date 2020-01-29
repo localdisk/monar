@@ -89,6 +89,6 @@ class TwoChanDriverTest extends MonarTestCase
         $driver = new TwoChanDriver($this->url, $client);
         $response = $driver->post('てすと', 'sage', 'てすとてすと');
 
-        $this->assertContains('書きこみました', $response);
+        $this->assertStringContainsString('書きこみました', $response);
     }
 }
