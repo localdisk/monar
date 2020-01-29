@@ -2,10 +2,10 @@
 
 namespace Localdisk\Monar\Tests;
 
-use Localdisk\Monar\Exceptions\MonarException;
-use Localdisk\Monar\Monar;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
+use Localdisk\Monar\Exceptions\MonarException;
+use Localdisk\Monar\Monar;
 use Localdisk\Monar\ShitarabaDriver;
 
 class ShitarabaDriverTest extends MonarTestCase
