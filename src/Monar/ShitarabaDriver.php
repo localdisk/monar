@@ -127,11 +127,11 @@ class ShitarabaDriver extends AbstractDriver
         $lines = array_filter(explode("\n", $body), '\strlen');
 
         return collect(array_map(function ($line) {
-            [$number, $name, $email, $date, $body, , $resid] = explode('<>', $line);
+            [$number, $name, $email, $date, $body, $title, $resid] = explode('<>', $line);
             $name = trim(strip_tags($name));
             $body = strip_tags($body, '<br>');
 
-            return compact('number', 'name', 'email', 'date', 'body', 'resid');
+            return compact('number', 'name', 'email', 'date', 'body', 'title', 'resid');
         }, $lines));
     }
 

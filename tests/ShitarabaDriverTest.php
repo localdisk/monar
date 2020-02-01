@@ -36,6 +36,7 @@ class ShitarabaDriverTest extends MonarTestCase
             'date'   => '2016/08/09(火) 17:48:45',
             'body'   => 'ﾃｽ',
             'resid'  => 'xxmuajss0',
+            'title'  => '',
         ], $message);
     }
 

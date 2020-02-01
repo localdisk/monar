@@ -1,4 +1,5 @@
 /.idea
 /vendor
+.history/
 composer.lock
 .phpunit.result.cache
