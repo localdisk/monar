@@ -150,13 +150,13 @@ class TwoChanDriver extends AbstractDriver
 
         $number = $start;
         foreach ($messages as $message) {
-            [$name, $email, $date, $body] = explode('<>', $message);
+            [$name, $email, $date, $body, $title] = explode('<>', $message);
             $name = trim(strip_tags($name));
             $body = strip_tags($body, '<br>');
             $resid = mb_substr($date, strpos($date, ' ID:') + 2);
             $date = mb_substr($date, 0, strpos($date, ' ID:') - 2);
 
-            $collection->push(compact('number', 'name', 'email', 'date', 'body', 'resid'));
+            $collection->push(compact('number', 'name', 'email', 'date', 'body', 'resid', 'title'));
 
             $number++;
         }

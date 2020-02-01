@@ -62,6 +62,7 @@ class TwoChanDriverTest extends MonarTestCase
             'date'   => '2016/08/24(水) 15:44:05.21',
             'body'   => ' テスト <br>  ',
             'resid'  => 'I14zMNd30',
+            'title'  => '',
         ], $message);
     }
 
