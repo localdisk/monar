@@ -144,10 +144,12 @@ class TwoChanDriver extends AbstractDriver
         }
 
         if (preg_match('/^[0-9]*[-]?[0-9]*/', $this->resNumber, $matches)) {
-            $paths = explode('-', $this->resNumber);
+            if (! empty($matches[0])) {
+                $paths = explode('-', $this->resNumber);
 
-            $start = empty($paths[0]) ? 1 : (int) $paths[0];
-            $end = empty($paths[1]) ? $lineCount : (int) $paths[1];
+                $start = empty($paths[0]) ? 1 : (int) $paths[0];
+                $end = empty($paths[1]) ? $lineCount : (int) $paths[1];
+            }
         }
 
         $messages = array_slice($lines, $start - 1, $end);
