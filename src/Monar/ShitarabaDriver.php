@@ -18,6 +18,11 @@ class ShitarabaDriver extends AbstractDriver
     protected $encoding = 'EUC-JP';
 
     /**
+     * @var string
+     */
+    protected $resNumber = '';
+
+    /**
      * get threads.
      *
      * @return \Illuminate\Support\Collection
@@ -43,7 +48,7 @@ class ShitarabaDriver extends AbstractDriver
      */
     public function messages(?int $start = null, ?int $end = null): Collection
     {
-        $body = $this->request('GET', $this->messagesUrl($start, $end));
+        $body = $this->request('GET', $this->messagesUrl());
 
         return $this->parseDatCollection($body);
     }
@@ -107,6 +112,7 @@ class ShitarabaDriver extends AbstractDriver
             $this->category = $paths[2];
             $this->board = $paths[3];
             $this->thread = $paths[4];
+            $this->resNumber = isset($paths[5]) ? $paths[5] : '';
         } else {
             $this->category = $paths[0];
             $this->board = $paths[1];
@@ -172,20 +178,9 @@ class ShitarabaDriver extends AbstractDriver
      *
      * @return string
      */
-    protected function messagesUrl(?int $start = null, ?int $end = null): string
+    protected function messagesUrl(): string
     {
-        $url = "{$this->baseUrl}/bbs/rawmode.cgi/{$this->category}/{$this->board}/{$this->thread}/";
-        if (null !== $start && null !== $end) {
-            return $url."{$start}-{$end}";
-        }
-        if (null !== $start && null === $end) {
-            return $url."{$start}-";
-        }
-        if (null === $start && null !== $end) {
-            return $url."-{$end}";
-        }
-
-        return $url;
+        return "{$this->baseUrl}/bbs/rawmode.cgi/{$this->category}/{$this->board}/{$this->thread}/{$this->resNumber}";
     }
 
     /**

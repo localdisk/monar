@@ -10,7 +10,7 @@ use Localdisk\Monar\ShitarabaDriver;
 
 class ShitarabaDriverTest extends MonarTestCase
 {
-    private $url = 'https://jbbs.shitaraba.net/bbs/read.cgi/otaku/15956/1470465448';
+    private $url = 'https://jbbs.shitaraba.net/bbs/read.cgi/otaku/15956/1470465448/1-20';
 
     /** @test */
     public function it_can_create_shirabadriver_instance()
@@ -78,7 +78,7 @@ class ShitarabaDriverTest extends MonarTestCase
         $this->expectExceptionMessage('url: https://jbbs.shitaraba.net/bbs/rawmode.cgi/otaku/15956/1470465448/1-20. method: GET. error:ERR');
         $client = $this->getHttpMock(new Response(200, ['ERROR' => 'ERR'], ''));
         $driver = new ShitarabaDriver($this->url, $client);
-        $driver->messages(1, 20);
+        $driver->messages();
     }
 
     /** @test */

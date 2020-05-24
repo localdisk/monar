@@ -148,17 +148,6 @@ abstract class AbstractDriver implements Driver
     abstract protected function parse(): void;
 
     /**
-     * parse dat collection.
-     *
-     * @param string $body
-     * @param int|null $start
-     * @param int|null $end
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    abstract protected function parseDatCollection(string $body, ?int $start = null, ?int $end = null): Collection;
-
-    /**
      * parse threads collection.
      *
      * @param string $body
@@ -166,16 +155,6 @@ abstract class AbstractDriver implements Driver
      * @return \Illuminate\Support\Collection
      */
     abstract protected function parseThreadsCollection(string $body): Collection;
-
-    /**
-     * build message url.
-     *
-     * @param int $start
-     * @param int|null $end
-     *
-     * @return string
-     */
-    abstract protected function messagesUrl(int $start = 1, ?int $end = null): string;
 
     /**
      * build thread url.

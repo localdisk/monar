@@ -15,6 +15,11 @@ class TwoChanDriver extends AbstractDriver
     protected $encoding = 'SJIS-win';
 
     /**
+     * @var string
+     */
+    protected $resNumber = '';
+
+    /**
      * get threads.
      *
      * @return \Illuminate\Support\Collection
@@ -42,7 +47,7 @@ class TwoChanDriver extends AbstractDriver
     {
         $body = $this->request('GET', $this->messagesUrl($start, $end));
 
-        return $this->parseDatCollection($body, $start, $end);
+        return $this->parseDatCollection($body);
     }
 
     /**
@@ -116,6 +121,7 @@ class TwoChanDriver extends AbstractDriver
         } else {
             $this->board = $paths[2];
             $this->thread = $paths[3];
+            $this->resNumber = isset($paths[4]) ? $paths[4] : '';
         }
     }
 
@@ -126,22 +132,22 @@ class TwoChanDriver extends AbstractDriver
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function parseDatCollection(string $body, ?int $start = null, ?int $end = null): Collection
+    protected function parseDatCollection(string $body): Collection
     {
         $lines = array_filter(explode("\n", $body), '\strlen');
 
         $lineCount = count($lines);
 
-        if (null === $start) {
-            $start = 1;
-        }
-
-        if (null !== $end) {
-            $end = $end - $start + 1;
-        }
-
-        if ($end > $lineCount) {
+        if (preg_match('/^l[0-9]*/', $this->resNumber, $matches)) {
+            $start = $lineCount - ((int) mb_substr($this->resNumber, 1, mb_strlen($this->resNumber)));
             $end = $lineCount;
+        }
+
+        if (preg_match('/^[0-9]*[-]?[0-9]*/', $this->resNumber, $matches)) {
+            $paths = explode('-', $this->resNumber);
+
+            $start = empty($paths[0]) ? 1 : (int) $paths[0];
+            $end = empty($paths[1]) ? $lineCount : (int) $paths[1];
         }
 
         $messages = array_slice($lines, $start - 1, $end);
