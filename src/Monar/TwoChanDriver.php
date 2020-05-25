@@ -138,6 +138,9 @@ class TwoChanDriver extends AbstractDriver
 
         $lineCount = count($lines);
 
+        $start = 1;
+        $end = $lineCount;
+
         if (preg_match('/^l[0-9]*/', $this->resNumber, $matches)) {
             $start = $lineCount - ((int) mb_substr($this->resNumber, 1, mb_strlen($this->resNumber)));
             $end = $lineCount;
