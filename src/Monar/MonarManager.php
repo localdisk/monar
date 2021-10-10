@@ -27,7 +27,7 @@ class MonarManager implements Factory
     /**
      * MonarManager constructor.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
      */
     public function __construct(Application $app)
     {
@@ -35,8 +35,7 @@ class MonarManager implements Factory
     }
 
     /**
-     * @param null $url
-     *
+     * @param  null  $url
      * @return Driver
      */
     public function bbs($url = null): Driver
@@ -58,9 +57,8 @@ class MonarManager implements Factory
     }
 
     /**
-     * @param string $haystack
-     * @param string $needle
-     *
+     * @param  string  $haystack
+     * @param  string  $needle
      * @return bool
      */
     protected function startsWith($haystack, $needle): bool

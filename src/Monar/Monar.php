@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * Class Monar.
+ *
  * @method Driver bbs(string|null $url)
  */
 class Monar extends Facade
