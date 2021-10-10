@@ -11,6 +11,7 @@ interface Driver
      * get threads.
      *
      * @return \Illuminate\Support\Collection
+     *
      * @throws MonarException
      */
     public function threads(): Collection;
@@ -18,9 +19,8 @@ interface Driver
     /**
      * get messages.
      *
-     * @param int|null $start
-     * @param int|null $end
-     *
+     * @param  int|null  $start
+     * @param  int|null  $end
      * @return \Illuminate\Support\Collection
      */
     public function messages(?int $start = null, ?int $end = null): Collection;
@@ -28,11 +28,11 @@ interface Driver
     /**
      * post message.
      *
-     * @param string $name
-     * @param string $email
-     * @param string|null $text
-     *
+     * @param  string  $name
+     * @param  string  $email
+     * @param  string|null  $text
      * @return string
+     *
      * @throws MonarException
      */
     public function post(?string $name = '', ?string $email = '', ?string $text = null): string;

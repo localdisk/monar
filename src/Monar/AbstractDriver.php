@@ -51,8 +51,8 @@ abstract class AbstractDriver implements Driver
     /**
      * AbstractDriver constructor.
      *
-     * @param string $url
-     * @param Client $client
+     * @param  string  $url
+     * @param  Client  $client
      */
     public function __construct(string $url, Client $client)
     {
@@ -88,8 +88,7 @@ abstract class AbstractDriver implements Driver
     /**
      * renew array.
      *
-     * @param array $array
-     *
+     * @param  array  $array
      * @return array
      */
     protected function renewArray(array $array): array
@@ -100,11 +99,11 @@ abstract class AbstractDriver implements Driver
     /**
      * send request.
      *
-     * @param string $method
-     * @param string $url
-     * @param array $options
-     *
+     * @param  string  $method
+     * @param  string  $url
+     * @param  array  $options
      * @return mixed|string
+     *
      * @throws MonarException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -129,10 +128,9 @@ abstract class AbstractDriver implements Driver
     /**
      * encode body text.
      *
-     * @param string $body
-     * @param string $from
-     * @param string $to
-     *
+     * @param  string  $body
+     * @param  string  $from
+     * @param  string  $to
      * @return mixed|string
      */
     protected function encode(string $body, string $from, string $to)
@@ -150,8 +148,7 @@ abstract class AbstractDriver implements Driver
     /**
      * parse threads collection.
      *
-     * @param string $body
-     *
+     * @param  string  $body
      * @return \Illuminate\Support\Collection
      */
     abstract protected function parseThreadsCollection(string $body): Collection;

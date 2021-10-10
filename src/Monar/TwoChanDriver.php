@@ -23,6 +23,7 @@ class TwoChanDriver extends AbstractDriver
      * get threads.
      *
      * @return \Illuminate\Support\Collection
+     *
      * @throws MonarException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -36,10 +37,10 @@ class TwoChanDriver extends AbstractDriver
     /**
      * get messages.
      *
-     * @param int|null $start
-     * @param int|null $end
-     *
+     * @param  int|null  $start
+     * @param  int|null  $end
      * @return \Illuminate\Support\Collection
+     *
      * @throws MonarException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -53,11 +54,11 @@ class TwoChanDriver extends AbstractDriver
     /**
      * post message.
      *
-     * @param string $name
-     * @param string $email
-     * @param string|null $text
-     *
+     * @param  string  $name
+     * @param  string  $email
+     * @param  string|null  $text
      * @return string
+     *
      * @throws MonarException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -128,8 +129,7 @@ class TwoChanDriver extends AbstractDriver
     /**
      * parse dat collection.
      *
-     * @param string $body
-     *
+     * @param  string  $body
      * @return \Illuminate\Support\Collection
      */
     protected function parseDatCollection(string $body): Collection
@@ -178,8 +178,7 @@ class TwoChanDriver extends AbstractDriver
     /**
      * parse threads collection.
      *
-     * @param string $body
-     *
+     * @param  string  $body
      * @return \Illuminate\Support\Collection
      */
     protected function parseThreadsCollection(string $body): Collection
@@ -206,9 +205,8 @@ class TwoChanDriver extends AbstractDriver
     /**
      * build message url.
      *
-     * @param int $start
-     * @param int|null $end
-     *
+     * @param  int  $start
+     * @param  int|null  $end
      * @return string
      */
     protected function messagesUrl(?int $start = null, ?int $end = null): string
@@ -239,8 +237,7 @@ class TwoChanDriver extends AbstractDriver
     /**
      * 書き込み確認かどうか.
      *
-     * @param  string $html
-     *
+     * @param  string  $html
      * @return bool
      */
     private function confirm(string $html): bool
@@ -249,8 +246,7 @@ class TwoChanDriver extends AbstractDriver
     }
 
     /**
-     * @param string $html
-     *
+     * @param  string  $html
      * @return bool
      */
     private function isError(string $html): bool
